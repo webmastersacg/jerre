@@ -23,10 +23,12 @@
             
             if(file.length < 4){
                 cfile.addClass("is-invalid");
-                mens.html("<span ><strong>Seleccione un archivo .txt</strong></span>");
+                mens.html("<span><strong>Seleccione un archivo .txt</strong></span>");
+                benviar.attr("type","button");
             }else{
                 cfile.removeClass("is-invalid");
                 mens.html("<span >El archivo <strong>.txt</strong>&nbsp;no tiene el formato correcto. Por favor intentelo de nuevo</span>");
+                benviar.attr("type","submit");
             }
         }
         
@@ -47,15 +49,16 @@
                 <div class="col-md-6">
                     <h4>Análisis de datos</h4>
                     <p>Bienvenido a la sección de análisis de datos de archivos planos. A continuación podrá cargar su archivo <strong>.txt </strong>en el siguiente formulario para validar su información.</p>
+                    <p class="text-danger"><strong>Importante:</strong> <em>Si presenta errores en el archivo porque el formato es inválido, recuerde que este debe cumplir con los siguientes criterios: Email, Nombre, Apellido, Código del Estado y Código del Revisor Ej: juan@hotmail.com,Juan,Aristizabal,1,6</em></p>
                 </div>
                 <div class="col-md-6">
-                    <form id="form-carga" class="form-inline border rounded shadow p-3" enctype="multipart/form-data"  method="post" action="resultados.php">
+                    <form id="form-carga" class="form-inline border rounded shadow p-3 needs-validation" enctype="multipart/form-data"  method="post" action="resultados.php">
                         <fieldset>
                             <legend>Formulario de carga de información</legend>
                             <div class="form-group d-flex d-md-flex justify-content-center justify-content-md-center">
                                 <div></div>
                                 <div class="col-3 mb-2"><img src="assets/img/file-txt.png"></div>
-                                <div class="col-9 custom-file"><input class="bg-secondary custom-file-input" type="file" id="id-archivo" name="archivo" required=""><label class="text-dark d-lg-flex justify-content-start custom-file-label <?php if($_GET['error'] == 'invalido' || $_GET['error'] == 'codigo'){ echo "is-invalid";} ?>" for="id-archivo">...examinar</label>
+                                <div class="col-9 custom-file"><input class="bg-secondary custom-file-input" type="file" id="id-archivo" name="archivo"><label class="text-dark d-lg-flex justify-content-start custom-file-label <?php if($_GET['error'] == 'invalido' || $_GET['error'] == 'codigo'){ echo "is-invalid";} ?>" for="id-archivo">...examinar</label>
                                     <div id="alerta" class="invalid-feedback w-auto "><span class="<?php if($_GET['error'] == 'invalido'){ echo "d-none";} ?>">El archivo <strong>.txt</strong>&nbsp;no tiene el formato correcto. Por favor intentelo de nuevo</span>
                                     <span class="<?php if($_GET['error'] == 'invalido'){ echo "none";}else{ echo "d-none"; } ?>">El <strong>archivo cargado</strong>&nbsp;no es un archivo <strong>.txt</strong>. Inténtelo de nuevo.</span></div>
                             </div>

@@ -48,14 +48,15 @@ if(isset($_FILES['archivo']) && $_FILES['archivo']['error'] === UPLOAD_ERR_OK) {
         $nombre = trim($datos[1]);
         $apellido = trim($datos[2]);
         $codigo = trim($datos[3]);
+        $revisor = trim($datos[4]);
             
-            if($codigo < 0 || $codigo > 3){
+            if($codigo < 0 || $codigo > 3 || $codigo == "" || $revisor == ""){
                 header("Location: index.php?error=codigo");
             }else{
                //Agregar registros
                 
-                $cons = "INSERT INTO usuarios(id_carga,email,nombre,apellido,codigo)
-                VALUES ($idcarga,'$email','$nombre','$apellido','$codigo')";
+                $cons = "INSERT INTO usuarios(id_carga,email,nombre,apellido,codigo,id_revisor)
+                VALUES ($idcarga,'$email','$nombre','$apellido','$codigo','$revisor')";
                 
                 $conex->query($cons);
             }
@@ -63,13 +64,25 @@ if(isset($_FILES['archivo']) && $_FILES['archivo']['error'] === UPLOAD_ERR_OK) {
         
         
         
-    $users_act = "SELECT * FROM usuarios
+    $users_act = "SELECT id_carga,email,usuarios.nombre as nombre,usuarios.apellido as apellido ,
+    codigo,id_revisor, revisores.nombre as rnombre, revisores.apellido as rapellido
+    FROM usuarios
+    INNER JOIN revisores
+    ON id = id_revisor
        WHERE codigo = 1 AND id_carga = $idcarga";
         
-    $users_inact = "SELECT * FROM usuarios
+    $users_inact = "SELECT id_carga,email,usuarios.nombre as nombre,usuarios.apellido as apellido ,
+    codigo,id_revisor, revisores.nombre as rnombre, revisores.apellido as rapellido
+    FROM usuarios
+    INNER JOIN revisores
+    ON id = id_revisor
        WHERE codigo = 2 AND id_carga = $idcarga";
         
-    $users_esp = "SELECT * FROM usuarios
+    $users_esp = "SELECT id_carga,email,usuarios.nombre as nombre,usuarios.apellido as apellido ,
+    codigo,id_revisor, revisores.nombre as rnombre, revisores.apellido as rapellido
+    FROM usuarios
+    INNER JOIN revisores
+    ON id = id_revisor
        WHERE codigo = 3 AND id_carga = $idcarga";
     }
         
@@ -120,6 +133,7 @@ if(isset($_FILES['archivo']) && $_FILES['archivo']['error'] === UPLOAD_ERR_OK) {
                                     <th>Email</th>
                                     <th>Nombre</th>
                                     <th>Apellido</th>
+                                    <th>Revisor</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -132,6 +146,7 @@ if(isset($_FILES['archivo']) && $_FILES['archivo']['error'] === UPLOAD_ERR_OK) {
                                     <td><?php echo $act->email; ?></td>
                                     <td><?php echo $act->nombre; ?></td>
                                     <td><?php echo $act->apellido; ?></td>
+                                    <td><?php echo $act->rnombre." ".$act->rapellido; ?></td>
                                 </tr>
                     <?php
                     }
@@ -149,6 +164,7 @@ if(isset($_FILES['archivo']) && $_FILES['archivo']['error'] === UPLOAD_ERR_OK) {
                                     <th>Email</th>
                                     <th>Nombre</th>
                                     <th>Apellido</th>
+                                    <th>Revisor</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -161,6 +177,7 @@ if(isset($_FILES['archivo']) && $_FILES['archivo']['error'] === UPLOAD_ERR_OK) {
                                     <td><?php echo $inact->email; ?></td>
                                     <td><?php echo $inact->nombre; ?></td>
                                     <td><?php echo $inact->apellido; ?></td>
+                                    <td><?php echo $inact->rnombre." ".$inact->rapellido; ?></td>
                                 </tr>
                     <?php
                     }
@@ -178,6 +195,7 @@ if(isset($_FILES['archivo']) && $_FILES['archivo']['error'] === UPLOAD_ERR_OK) {
                                     <th>Email</th>
                                     <th>Nombre</th>
                                     <th>Apellido</th>
+                                    <th>Revisor</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -190,6 +208,7 @@ if(isset($_FILES['archivo']) && $_FILES['archivo']['error'] === UPLOAD_ERR_OK) {
                                     <td><?php echo $esp->email; ?></td>
                                     <td><?php echo $esp->nombre; ?></td>
                                     <td><?php echo $esp->apellido; ?></td>
+                                    <td><?php echo $esp->rnombre." ".$esp->rapellido; ?></td>
                                 </tr>
                     <?php
                     }
